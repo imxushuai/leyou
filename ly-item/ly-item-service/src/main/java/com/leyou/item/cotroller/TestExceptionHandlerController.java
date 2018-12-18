@@ -1,4 +1,4 @@
-package com.leyou.item.web;
+package com.leyou.item.cotroller;
 
 import com.leyou.common.enums.LyExceptionEnum;
 import com.leyou.common.exception.LyException;
