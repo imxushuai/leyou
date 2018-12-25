@@ -85,7 +85,7 @@ public class CategoryService {
             Category param = new Category();
             param.setParentId(categoryId);
             if (categoryMapper.select(param).size() > 0) {
-                throw new LyException(LyExceptionEnum.DELETE_INVALID);
+                throw new LyException(LyExceptionEnum.CATEGORY_DELETE_INVALID);
             }
         }
         if (categoryMapper.delete(category) != 1) {

@@ -104,6 +104,7 @@
       },
       search: {
         handler() {
+          this.pagination.page = 1;
           this.getDataFromApi();
         }
       },
@@ -150,7 +151,6 @@
       },
       getDataFromApi() {
         this.loading = true;
-        // 200ms后返回假数据
         this.$http.get("/item/brand/page", {
           params: {
             page: this.pagination.page, // 当前页

@@ -23,7 +23,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.queryCategoryListByPid(pid));
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
         if (category == null) {
             throw new LyException(LyExceptionEnum.PARAM_CANNOT_BE_NULL);
@@ -31,7 +31,7 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.addCategory(category));
     }
 
-    @PutMapping()
+    @PutMapping
     public ResponseEntity<Category> saveCategory(@RequestBody Category category) {
         if (category == null) {
             throw new LyException(LyExceptionEnum.PARAM_CANNOT_BE_NULL);
