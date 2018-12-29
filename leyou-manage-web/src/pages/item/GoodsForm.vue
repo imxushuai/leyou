@@ -323,6 +323,9 @@
             .then(resp => {
               this.brandOptions = resp.data;
             })
+            .catch(resp => {
+              this.$message.error(resp.data.message);
+            })
           // 根据分类加载规格参数
           this.$http.get("/item/spec/" + val[2].id)
             .then(resp => {
@@ -361,6 +364,9 @@
                   t.options = this.goods.spuDetail.specTemplate[t.k]
                 });
               }
+            })
+            .catch(resp => {
+              this.$message.error(resp.data.message);
             })
         }
       },
