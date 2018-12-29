@@ -12,6 +12,8 @@ public enum LyExceptionEnum {
     FILE_TYPE_ERROR(400, "不支持的文件格式"),
     CATEGORY_LIST_NOT_FOUND(404, "未查询到分类列表"),
     BRAND_LIST_NOT_FOUND(404, "未查询到品牌列表"),
+    SPU_LIST_NOT_FOUND(404, "未查询到商品列表"),
+    SPU_NOT_FOUND(404, "未查询到商品列表"),
     BRAND_NOT_FOUND(404, "该品牌不存在"),
     CATEGORY_NOT_FOUND(404, "该分类不存在"),
     PARENT_CATEGORY_NOT_FOUND(404, "该父分类不存在"),
