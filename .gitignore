@@ -39,5 +39,4 @@ target/
 
 #other
 **/target
-**/build
 **/.gradle
