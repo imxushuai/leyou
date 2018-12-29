@@ -1,5 +1,5 @@
 server:
-  port: 8002
+  port: 8082
 spring:
   application:
     name: upload-service

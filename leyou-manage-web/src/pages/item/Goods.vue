@@ -6,7 +6,7 @@
       <v-flex xs3>
         状态：
         <v-btn-toggle mandatory v-model="search.saleable">
-          <v-btn flat :value=null>
+          <v-btn flat>
             全部
           </v-btn>
           <v-btn flat :value="true">
@@ -92,6 +92,7 @@
 
 <script>
   import GoodsForm from './GoodsForm'
+  import {goodsData} from "../../mockDB";
 
   export default {
     name: "item",
@@ -167,8 +168,7 @@
       },
       editItem(item) {
         this.selectedGoods = item;
-        console.log(item);
-        const names = item.cname.split("/");
+        const names = item.categoryName.split("/");
         this.selectedGoods.categories = [
           {id: item.cid1, name: names[0]},
           {id: item.cid2, name: names[1]},
@@ -202,26 +202,12 @@
       },
       getDataFromApi() {
         this.loading = true;
-        this.$http.get("/item/goods/spu/page", {
-          params: {
-            page: this.pagination.page, // 当前页
-            rows: this.pagination.rowsPerPage, // 每页条数
-            sortBy: this.pagination.sortBy, // 排序字段
-            desc: this.pagination.descending, // 是否降序
-            key: this.search.key, // 查询字段
-            saleable: this.search.saleable // 过滤上下架
-          }
-        }).then(response => { // 获取响应结果对象
-          this.totalItems = response.data.total; // 总条数
-          this.items = response.data.items; // 品牌数据
-          this.loading = false; // 加载完成
-        }).catch(response => {
-          // http返回的error结构很复杂，并不是直接返回你定义好的对象格式。
-          // 如果你也想使用 response.data.message 获取到错误消息
-          // 需要在http.js中自定义个一个响应拦截器
-          // 或者你也可以使用 response.response.data.message 获取到
-          this.$message.error(response.data.message);
-        });
+        setTimeout(() => {
+          // 返回假数据
+          this.items = goodsData.slice(0, 4);
+          this.totalItems = 25;
+          this.loading = false;
+        }, 300)
       }
     }
   }

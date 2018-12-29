@@ -52,14 +52,5 @@ public class BrandController {
         return ResponseEntity.ok(brandService.deleteBrand(brandId));
     }
 
-    @GetMapping("/cid/{categoryId}")
-    public ResponseEntity<List<Brand>> queryBrandByCategoryId(@PathVariable("categoryId") Long categoryId) {
-        if (categoryId == null) {
-            throw new LyException(LyExceptionEnum.PARAM_CANNOT_BE_NULL);
-        }
-        // 查询
-        return ResponseEntity.ok(brandService.queryBrandByCategoryId(categoryId));
-    }
-
 
 }

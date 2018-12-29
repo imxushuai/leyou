@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -118,25 +116,11 @@ public class BrandService {
             throw new LyException(LyExceptionEnum.BRAND_LIST_NOT_FOUND);
         }
         // 删除品牌
-        if (brandMapper.delete(brand) != 1) {
+        if(brandMapper.delete(brand) != 1){
             throw new LyException(LyExceptionEnum.DELETE_FAILURE);
         }
         // 删除品牌的关联分类数据
         brandMapper.deleteCategoryBrandByBrandId(brandId);
         return brand;
-    }
-
-    /**
-     * 按分类ID查询品牌列表
-     *
-     * @param categoryId 分类ID
-     * @return 品牌列表
-     */
-    public List<Brand> queryBrandByCategoryId(Long categoryId) {
-        List<Brand> brands = brandMapper.queryBrandByCategoryId(categoryId);
-        if (brands.isEmpty()) {
-            throw new LyException(LyExceptionEnum.BRAND_LIST_NOT_FOUND);
-        }
-        return brands;
     }
 }
