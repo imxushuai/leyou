@@ -15,6 +15,8 @@ public enum LyExceptionEnum {
     SPU_LIST_NOT_FOUND(404, "未查询到商品列表"),
     SPU_NOT_FOUND(404, "未查询到商品列表"),
     BRAND_NOT_FOUND(404, "该品牌不存在"),
+    GOODS_NOT_FOUND(404, "该商品不存在"),
+    SKU_LIST_NOT_FOUND(404, "未查询到SKU列表"),
     CATEGORY_NOT_FOUND(404, "该分类不存在"),
     PARENT_CATEGORY_NOT_FOUND(404, "该父分类不存在"),
     SAVE_FAILURE(500, "保存失败"),

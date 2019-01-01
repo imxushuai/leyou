@@ -143,7 +143,7 @@
                 <v-card flat class="pb-3">
                   <v-card-title>为商品上传图片：</v-card-title>
                   <v-card-text>
-                    <v-upload multiple url="/item/upload" v-model="props.item.images"/>
+                    <v-upload multiple url="/item/upload/image" v-model="props.item.images"/>
                   </v-card-text>
                 </v-card>
               </template>

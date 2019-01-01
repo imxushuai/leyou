@@ -165,7 +165,9 @@
         this.isEdit = false;
         this.show = true;
       },
-      editItem(item) {
+      editItem: function (item) {
+        this.isEdit = true;
+        this.show = true;
         this.selectedGoods = item;
         console.log(item);
         const names = item.cname.split("/");
@@ -180,9 +182,7 @@
             this.selectedGoods.spuDetail = resp.data;
             this.selectedGoods.spuDetail.specTemplate = JSON.parse(resp.data.specTemplate);
             this.selectedGoods.spuDetail.specifications = JSON.parse(resp.data.specifications);
-          })
-        this.isEdit = true;
-        this.show = true;
+          });
       },
       deleteItem(id) {
         this.$message.confirm('此操作将永久删除该商品, 是否继续?')

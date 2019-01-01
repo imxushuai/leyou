@@ -6,19 +6,17 @@ import com.leyou.BO.SpuBO;
 import com.leyou.common.enums.LyExceptionEnum;
 import com.leyou.common.exception.LyException;
 import com.leyou.common.vo.PageResult;
-import com.leyou.item.mapper.BrandMapper;
-import com.leyou.item.mapper.CategoryMapper;
-import com.leyou.item.mapper.GoodsMapper;
-import com.leyou.pojo.Brand;
-import com.leyou.pojo.Category;
-import com.leyou.pojo.Spu;
+import com.leyou.item.mapper.*;
+import com.leyou.pojo.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +32,15 @@ public class GoodsService {
 
     @Autowired
     private BrandMapper brandMapper;
+
+    @Autowired
+    private SkuMapper skuMapper;
+
+    @Autowired
+    private SpuDetailMapper spuDetailMapper;
+
+    @Autowired
+    private StockMapper stockMapper;
 
     /**
      * 分页查询商品列表
@@ -90,5 +97,133 @@ public class GoodsService {
         }).collect(Collectors.toList());
 
         return new PageResult<>(pageInfo.getTotal(), spuBOList);
+    }
+
+    /**
+     * 新增商品
+     *
+     * @param goods 商品信息
+     * @return SPU
+     */
+    @Transactional
+    public Spu addGoods(SpuBO goods) {
+        try {
+            // 保存SPU
+            goods.setSaleable(true); // 上架
+            goods.setCreateTime(new Date()); // 新增时间
+            goods.setLastUpdateTime(goods.getCreateTime()); // 最后更新时间
+            goodsMapper.insert(goods);
+
+            // 保存SPU描述
+            SpuDetail spuDetail = goods.getSpuDetail();
+            spuDetail.setSpuId(goods.getId()); // 设置ID
+            spuDetailMapper.insert(spuDetail);
+
+            // 保存SKU列表
+            saveSkuList(goods);
+        } catch (Exception e) {
+            throw new LyException(LyExceptionEnum.SAVE_FAILURE);
+        }
+        return goods;
+    }
+
+    // 保存SKU列表
+    private void saveSkuList(SpuBO goods) {
+        goods.getSkuList().forEach(sku -> {
+            if (sku.getEnable()) {
+                // 保存sku信息
+                sku.setCreateTime(goods.getCreateTime());
+                sku.setSpuId(goods.getId());
+                sku.setLastUpdateTime(goods.getCreateTime());
+                skuMapper.insert(sku);
+                // 保存库存信息
+                Stock stock = new Stock();
+                stock.setSkuId(sku.getId());
+                stock.setStock(sku.getStock());
+                stockMapper.insert(stock);
+            }
+        });
+    }
+
+    /**
+     * 编辑商品
+     *
+     * @param goods 商品信息
+     * @return SPU
+     */
+    public Spu saveGoods(SpuBO goods) {
+        try {
+            // 保存SPU
+            goods.setSaleable(true); // 上架
+            goods.setLastUpdateTime(new Date()); // 最后更新时间
+            goodsMapper.insert(goods);
+
+            // 保存SPU描述
+            spuDetailMapper.updateByPrimaryKeySelective(goods.getSpuDetail());
+            // 保存SKU列表，需要先删除原先的SKU列表
+            Sku sku = new Sku();
+            sku.setSpuId(goods.getId());
+            skuMapper.delete(sku);
+            saveSkuList(goods);
+        } catch (Exception e) {
+            throw new LyException(LyExceptionEnum.SAVE_FAILURE);
+        }
+        return goods;
+    }
+
+    /**
+     * 按ID查询商品信息
+     *
+     * @param spuId spuid
+     * @return 商品信息
+     */
+    public SpuBO queryGoodsById(Long spuId) {
+        SpuBO spuBO = new SpuBO();
+        // 查询spu基本信息
+        Spu spu = goodsMapper.selectByPrimaryKey(spuId);
+        if (spu == null || spu.getId() == null) {
+            throw new LyException(LyExceptionEnum.GOODS_NOT_FOUND);
+        }
+        BeanUtils.copyProperties(spu, spuBO);
+        // 查询商品描述信息
+        spuBO.setSpuDetail(spuDetailMapper.selectByPrimaryKey(spuId));
+        // 查询商品SKU列表
+        Sku sku = new Sku();
+        sku.setSpuId(spuId);
+        List<Sku> skuList = skuMapper.select(sku);
+        spuBO.setSkuList(skuList);
+
+        return spuBO;
+    }
+
+    /**
+     * 按spuid查询商品描述
+     *
+     * @param spuId id
+     * @return 描述信息
+     */
+    public SpuDetail querySpuDetailById(Long spuId) {
+        SpuDetail spuDetail = spuDetailMapper.selectByPrimaryKey(spuId);
+        if (spuDetail == null) {
+            throw new LyException(LyExceptionEnum.GOODS_NOT_FOUND);
+        }
+        return spuDetail;
+    }
+
+    /**
+     * 按spuid查询sku列表
+     *
+     * @param spuId id
+     * @return sku列表
+     */
+    public List<Sku> querySkuListById(Long spuId) {
+        Sku sku = new Sku();
+        sku.setSpuId(spuId);
+        List<Sku> skuList = skuMapper.select(sku);
+        if (skuList.isEmpty()) {
+            throw new LyException(LyExceptionEnum.SKU_LIST_NOT_FOUND);
+        }
+
+        return skuList;
     }
 }
