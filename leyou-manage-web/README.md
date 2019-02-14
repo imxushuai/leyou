@@ -1,6 +1,6 @@
 # leyou-manage-web
 
-> A Vue.js project
+> 乐优商城管理UI
 
 ## Build Setup
 
