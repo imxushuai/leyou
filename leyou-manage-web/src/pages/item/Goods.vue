@@ -48,8 +48,8 @@
           <v-btn icon small @click="deleteItem(props.item.id)">
             <i class="el-icon-delete"/>
           </v-btn>
-          <v-btn icon small v-if="props.item.saleable">下架</v-btn>
-          <v-btn icon v-else>上架</v-btn>
+          <v-btn icon small v-if="props.item.saleable" @click="updateGoodsStatus(props.item.id,!props.item.saleable)">下架</v-btn>
+          <v-btn icon v-else @click="updateGoodsStatus(props.item.id,!props.item.saleable)">上架</v-btn>
         </td>
       </template>
       <template slot="no-data">
@@ -188,7 +188,7 @@
         this.$message.confirm('此操作将永久删除该商品, 是否继续?')
           .then(() => {
             // 发起删除请求
-            this.$http.delete("/item/goods?id=" + id)
+            this.$http.delete("/item/goods/" + id)
               .then(() => {
                 // 删除成功，重新加载数据
                 this.getDataFromApi();
@@ -221,6 +221,14 @@
           // 需要在http.js中自定义个一个响应拦截器
           // 或者你也可以使用 response.response.data.message 获取到
           this.$message.error(response.data.message);
+        });
+      },
+      // 上/下架商品
+      updateGoodsStatus(id, goodsStatus) {
+        this.$http.get("/item/goods/sku/status/" + id, {
+          params: {
+            status:goodsStatus
+          }
         });
       }
     }

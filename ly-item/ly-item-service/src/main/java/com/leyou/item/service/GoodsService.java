@@ -148,6 +148,7 @@ public class GoodsService {
      * @param goods 商品信息
      * @return SPU
      */
+    @Transactional
     public Spu saveGoods(SpuBO goods) {
         try {
             // 保存SPU
@@ -161,6 +162,11 @@ public class GoodsService {
             Sku sku = new Sku();
             sku.setSpuId(goods.getId());
             skuMapper.delete(sku);
+            // 删除库存信息
+            List<Sku> skuList = skuMapper.select(sku);
+            List<Long> ids = skuList.stream().map(Sku::getId).collect(Collectors.toList());
+            stockMapper.deleteByIdList(ids);
+            // 保存更新后的数据
             saveSkuList(goods);
         } catch (Exception e) {
             throw new LyException(LyExceptionEnum.SAVE_FAILURE);
@@ -231,5 +237,54 @@ public class GoodsService {
         skuList.forEach(s -> s.setStock(stockMap.get(s.getId())));
 
         return skuList;
+    }
+
+
+    /**
+     * 更新商品状态（上下架）
+     *
+     * @param skuId  skuId
+     * @param status 商品状态
+     */
+    public Sku updateGoodsStatus(Long skuId, Boolean status) {
+        // 查询sku
+        Sku sku = skuMapper.selectByPrimaryKey(skuId);
+        if (sku == null) {
+            throw new LyException(LyExceptionEnum.GOODS_NOT_FOUND);
+        }
+        // 修改商品状态
+        sku.setEnable(status);
+        // 保存
+        skuMapper.updateByPrimaryKey(sku);
+        return sku;
+    }
+
+    /**
+     * 删除商品
+     *
+     * @param spuId 商品ID
+     * @return 被删除的商品
+     */
+    @Transactional
+    public Spu deleteGoods(Long spuId) {
+        // 查询spu
+        Spu spu = goodsMapper.selectByPrimaryKey(spuId);
+        if (spu == null) {
+            throw new LyException(LyExceptionEnum.GOODS_NOT_FOUND);
+        }
+        // 删除spu和spuDetail
+        goodsMapper.deleteByPrimaryKey(spuId);
+        spuDetailMapper.deleteByPrimaryKey(spuId);
+
+        // 删除sku列表
+        Sku sku = new Sku();
+        sku.setSpuId(spuId);
+        List<Sku> skuList = skuMapper.select(sku);
+        List<Long> ids = skuList.stream().map(Sku::getId).collect(Collectors.toList());
+        skuMapper.deleteByIdList(ids);
+        // 删除库存信息
+        stockMapper.deleteByIdList(ids);
+
+        return spu;
     }
 }
