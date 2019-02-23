@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -223,6 +220,15 @@ public class GoodsService {
         if (skuList.isEmpty()) {
             throw new LyException(LyExceptionEnum.SKU_LIST_NOT_FOUND);
         }
+        // 查询每个sku的库存信息
+        List<Stock> stockList = stockMapper.selectByIdList(skuList.stream().map(Sku::getId).collect(Collectors.toList()));
+        if (stockList.isEmpty()) {
+            throw new LyException(LyExceptionEnum.GOODS_STOCK_NOT_FOUND);
+        }
+        // 将库存数量与skuId生成map
+        Map<Long, Long> stockMap = stockList.stream().collect(Collectors.toMap(Stock::getSkuId, Stock::getStock));
+        // 设置库存数量
+        skuList.forEach(s -> s.setStock(stockMap.get(s.getId())));
 
         return skuList;
     }

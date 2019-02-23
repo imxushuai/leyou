@@ -28,7 +28,7 @@ public class GoodsController {
                                                             @RequestParam(value = "sortBy", required = false) String sortBy,
                                                             @RequestParam(value = "desc", defaultValue = "false") Boolean desc,
                                                             @RequestParam("key") String key,
-                                                            @RequestParam(value = "saleable", required = false, defaultValue = "true") Boolean saleable) {
+                                                            @RequestParam(value = "saleable", required = false) Boolean saleable) {
         return ResponseEntity.ok(goodsService.querySpuByPage(page, rows, sortBy, desc, key, saleable));
     }
 

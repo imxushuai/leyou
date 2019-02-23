@@ -309,10 +309,37 @@
         deep: true,
         handler(val) {
           if (val == null || !this.isEdit) {
-            return;
+            Object.assign(this.goods, {
+              categories: null, // 商品分类信息
+              brandId: 0, // 品牌id信息
+              title: "", // 标题
+              subTitle: "", // 子标题
+              spuDetail: {
+                packingList: "", // 包装列表
+                afterService: "", // 售后服务
+                description: "" // 商品描述
+              }
+            });
+            this.specs = [];
+          } else {
+            this.goods = Object.deepCopy(val);
+
+            // 先得到分类名称
+            const names = val.cname.split("/");
+            // 组织商品分类数据
+            this.goods.categories = [
+              { id: val.cid1, name: names[0] },
+              { id: val.cid2, name: names[1] },
+              { id: val.cid3, name: names[2] }
+            ];
+
+            // 将skus处理成map
+            const skuMap = new Map();
+            this.goods.skuList.forEach(s => {
+              skuMap.set(s.indexes, s);
+            });
+            this.goods.skuList = skuMap;
           }
-          // 实现数据回显
-          Object.deepCopy(val, this.goods)
         }
       },
       'goods.categories': {
@@ -388,11 +415,7 @@
           // 处理回显
           if (this.isEdit) {
             // 查询sku
-            this.$http.get("/item/goods/sku/list", {
-              params: {
-                id: this.goods.id
-              }
-            }).then(resp => {
+            this.$http.get("/item/goods/sku/list/" + this.goods.id).then(resp => {
               // 处理SKU
               this.skus.forEach(sku => {
                 resp.data.forEach(s => {
