@@ -18,11 +18,22 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    /**
+     * 按父ID查询分类集合
+     * @param pid 父id
+     * @return List<Category>
+     */
     @GetMapping("/list")
     public ResponseEntity<List<Category>> queryCategoryListByPid(@RequestParam(value = "pid", defaultValue = "0") Long pid) {
         return ResponseEntity.ok(categoryService.queryCategoryListByPid(pid));
     }
 
+    /**
+     * 新增分类
+     *
+     * @param category 分类
+     * @return Category
+     */
     @PostMapping
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
         if (category == null) {
@@ -31,6 +42,12 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.addCategory(category));
     }
 
+    /**
+     * 更新分类
+     *
+     * @param category 分类
+     * @return Category
+     */
     @PutMapping
     public ResponseEntity<Category> saveCategory(@RequestBody Category category) {
         if (category == null) {
@@ -39,6 +56,12 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.saveCategory(category));
     }
 
+    /**
+     * 删除指定ID的分类
+     *
+     * @param categoryId 分类ID
+     * @return Category 被删除的分类对象
+     */
     @DeleteMapping("/{categoryId}")
     public ResponseEntity<Category> deleteCategory(@PathVariable("categoryId") Long categoryId) {
         if (categoryId == null) {
@@ -46,4 +69,14 @@ public class CategoryController {
         }
         return ResponseEntity.ok(categoryService.deleteCategory(categoryId));
     }
+
+    @GetMapping("/list/ids")
+    public ResponseEntity<List<Category>> queryCategoryListByIds(@RequestParam("ids") List<Long> ids) {
+        if (ids.isEmpty()) {
+            throw new LyException(LyExceptionEnum.PARAM_CANNOT_BE_NULL);
+        }
+        return ResponseEntity.ok(categoryService.queryByIds(ids));
+    }
+
+
 }

@@ -20,15 +20,32 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
+    /**
+     * 分页查询品牌集合
+     *
+     * @param page   当前页码
+     * @param rows   每页记录数
+     * @param sortBy 排序字段
+     * @param desc   是否降序
+     * @param key    查询关键字
+     * @return List<Brand>
+     */
     @GetMapping("/page")
     public ResponseEntity<PageResult<Brand>> queryBrandByPage(@RequestParam(value = "page", defaultValue = "1") int page,
                                                               @RequestParam(value = "rows", defaultValue = "5") int rows,
                                                               @RequestParam("sortBy") String sortBy,
-                                                              @RequestParam(value = "desc",defaultValue = "false") Boolean desc,
+                                                              @RequestParam(value = "desc", defaultValue = "false") Boolean desc,
                                                               @RequestParam("key") String key) {
         return ResponseEntity.ok(brandService.queryBrandByPage(page, rows, sortBy, desc, key));
     }
 
+    /**
+     * 新增品牌
+     *
+     * @param brand      品牌
+     * @param categories 分类信息
+     * @return Brand
+     */
     @PostMapping
     public ResponseEntity<Brand> addBrand(@RequestBody Brand brand,
                                           @RequestParam("categories") List<Long> categories) {
@@ -38,6 +55,13 @@ public class BrandController {
         return ResponseEntity.status(HttpStatus.CREATED).body(brandService.addBrand(brand, categories));
     }
 
+    /**
+     * 更新品牌
+     *
+     * @param brand      品牌
+     * @param categories 分类信息
+     * @return Brand
+     */
     @PutMapping
     public ResponseEntity<Brand> editBrand(@RequestBody Brand brand,
                                            @RequestParam("categories") List<Long> categories) {
@@ -47,11 +71,23 @@ public class BrandController {
         return ResponseEntity.ok(brandService.saveBrand(brand, categories));
     }
 
+    /**
+     * 删除指定ID的品牌
+     *
+     * @param brandId 品牌ID
+     * @return Brand
+     */
     @DeleteMapping("/{brandId}")
     public ResponseEntity<Brand> deleteBrand(@PathVariable("brandId") long brandId) {
         return ResponseEntity.ok(brandService.deleteBrand(brandId));
     }
 
+    /**
+     * 查询指定分类的品牌集合
+     *
+     * @param categoryId 分类ID
+     * @return List<Brand>
+     */
     @GetMapping("/cid/{categoryId}")
     public ResponseEntity<List<Brand>> queryBrandByCategoryId(@PathVariable("categoryId") Long categoryId) {
         if (categoryId == null) {
@@ -59,6 +95,17 @@ public class BrandController {
         }
         // 查询
         return ResponseEntity.ok(brandService.queryBrandByCategoryId(categoryId));
+    }
+
+    /**
+     * 查询指定ID的品牌
+     *
+     * @param brandId 品牌ID
+     * @return Brand
+     */
+    @GetMapping("/{brandId}")
+    public ResponseEntity<Brand> queryBrandById(@PathVariable("brandId") long brandId) {
+        return ResponseEntity.ok(brandService.queryById(brandId));
     }
 
 

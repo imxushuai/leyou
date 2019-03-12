@@ -139,4 +139,16 @@ public class BrandService {
         }
         return brands;
     }
+
+    /**
+     * 按品牌ID查询品牌
+     *
+     * @param brandId 品牌
+     * @return Brand
+     */
+    public Brand queryById(long brandId) {
+        Brand brand = new Brand();
+        brand.setId(brandId);
+        return brandMapper.selectOne(brand);
+    }
 }

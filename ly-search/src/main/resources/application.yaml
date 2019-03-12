@@ -1,0 +1,16 @@
+server:
+  port: 8002
+spring:
+  application:
+    name: search-service
+  data:
+    elasticsearch:
+      cluster-nodes: 192.168.136.101:9300
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9999/eureka
+  instance:
+    ## 生产环境不建议开启
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期

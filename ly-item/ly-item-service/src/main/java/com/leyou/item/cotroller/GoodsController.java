@@ -24,6 +24,14 @@ public class GoodsController {
 
     /**
      * 分页查询商品列表
+     *
+     * @param page     当前页码
+     * @param rows     每页记录数
+     * @param sortBy   排序字段
+     * @param desc     是否降序
+     * @param key      查询关键字
+     * @param saleable 是否上架
+     * @return List<SpuBO>
      */
     @GetMapping("/spu/page")
     public ResponseEntity<PageResult<SpuBO>> querySpuByPage(@RequestParam(value = "page", defaultValue = "1") int page,
@@ -37,6 +45,9 @@ public class GoodsController {
 
     /**
      * 新增商品
+     *
+     * @param goods 商品
+     * @return Spu
      */
     @PostMapping
     public ResponseEntity<Spu> addGoods(@RequestBody SpuBO goods) {
@@ -48,7 +59,10 @@ public class GoodsController {
     }
 
     /**
-     * 更新商品
+     * 新增商品
+     *
+     * @param goods 商品
+     * @return Spu
      */
     @PutMapping
     public ResponseEntity<Spu> saveGoods(@RequestBody SpuBO goods) {
@@ -61,6 +75,9 @@ public class GoodsController {
 
     /**
      * 按商品ID查询商品描述
+     *
+     * @param spuId 商品ID
+     * @return SpuDetail
      */
     @GetMapping("/spu/detail/{spuId}")
     public ResponseEntity<SpuDetail> querySpuDetailById(@PathVariable("spuId") Long spuId) {
@@ -72,6 +89,9 @@ public class GoodsController {
 
     /**
      * 按商品ID查询该商品所有规格的商品列表
+     *
+     * @param spuId 商品ID
+     * @return List<Sku>
      */
     @GetMapping("/sku/list/{spuId}")
     public ResponseEntity<List<Sku>> querySkuListById(@PathVariable("spuId") Long spuId) {
@@ -83,6 +103,10 @@ public class GoodsController {
 
     /**
      * 上架下架
+     *
+     * @param skuId  skuID
+     * @param status 修改后的商品状态
+     * @return Sku
      */
     @GetMapping("/sku/status/{skuId}")
     public ResponseEntity<Sku> updateSkuStatus(@PathVariable("skuId") Long skuId,
@@ -92,6 +116,12 @@ public class GoodsController {
 
     /**
      * 删除商品
+     */
+    /**
+     * 删除指定spuId的商品
+     *
+     * @param spuId 商品ID
+     * @return Spu 被删除的spu
      */
     @DeleteMapping("/{spuId}")
     public ResponseEntity<Spu> deleteGoods(@PathVariable("spuId") Long spuId) {

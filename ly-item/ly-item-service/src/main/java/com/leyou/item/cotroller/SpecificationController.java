@@ -16,6 +16,12 @@ public class SpecificationController {
     @Autowired
     private SpecificationService specificationService;
 
+    /**
+     * 查询指定分类的规格数据
+     *
+     * @param categoryId 分类ID
+     * @return Specification
+     */
     @GetMapping("/{categoryId}")
     public ResponseEntity<String> querySpecificationByCategoryId(@PathVariable("categoryId") Long categoryId) {
         if (categoryId == null) {
@@ -30,6 +36,12 @@ public class SpecificationController {
         return ResponseEntity.ok(specification.getSpecifications());
     }
 
+    /**
+     * 新增规格
+     *
+     * @param specification 规格
+     * @return Specification
+     */
     @PostMapping
     public ResponseEntity<Specification> addSpecification(@RequestBody Specification specification) {
         if (specification == null || specification.getCategoryId() == null) {
@@ -39,6 +51,12 @@ public class SpecificationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(specificationService.addSpecification(specification));
     }
 
+    /**
+     * 更新规格
+     *
+     * @param specification 规格
+     * @return Specification
+     */
     @PutMapping
     public ResponseEntity<Specification> saveSpecification(@RequestBody Specification specification) {
         if (specification == null || specification.getCategoryId() == null) {

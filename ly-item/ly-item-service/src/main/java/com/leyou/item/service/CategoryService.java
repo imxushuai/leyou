@@ -19,6 +19,7 @@ public class CategoryService {
 
     /**
      * 按分类父ID查询分类列表
+     *
      * @param pid 父ID
      * @return 分类列表
      */
@@ -34,6 +35,7 @@ public class CategoryService {
 
     /**
      * 新增分类
+     *
      * @param category 分类
      * @return 分类
      */
@@ -60,6 +62,7 @@ public class CategoryService {
 
     /**
      * 编辑分类
+     *
      * @param category 分类
      * @return 分类
      */
@@ -72,6 +75,7 @@ public class CategoryService {
 
     /**
      * 删除费雷
+     *
      * @param categoryId 分类id
      * @return 被删除的分类
      */
@@ -92,5 +96,15 @@ public class CategoryService {
             throw new LyException(LyExceptionEnum.SAVE_FAILURE);
         }
         return category;
+    }
+
+    /**
+     * 按ID查询分类集合，id可以为多个
+     *
+     * @param ids id集合
+     * @return List<Category>
+     */
+    public List<Category> queryByIds(List<Long> ids) {
+        return categoryMapper.selectByIdList(ids);
     }
 }
