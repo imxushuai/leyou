@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -106,5 +107,15 @@ public class CategoryService {
      */
     public List<Category> queryByIds(List<Long> ids) {
         return categoryMapper.selectByIdList(ids);
+    }
+
+    /**
+     * 根据商品分类id查询名称
+     *
+     * @param ids 要查询的分类id集合
+     * @return 多个名称的集合
+     */
+    public List<String> queryNameByIds(List<Long> ids) {
+        return queryByIds(ids).stream().map(Category::getName).collect(Collectors.toList());
     }
 }

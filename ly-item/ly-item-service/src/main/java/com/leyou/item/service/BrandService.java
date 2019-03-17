@@ -147,8 +147,10 @@ public class BrandService {
      * @return Brand
      */
     public Brand queryById(long brandId) {
-        Brand brand = new Brand();
-        brand.setId(brandId);
-        return brandMapper.selectOne(brand);
+        Brand brand = brandMapper.selectByPrimaryKey(brandId);
+        if (brand == null) {
+            throw new LyException(LyExceptionEnum.BRAND_NOT_FOUND);
+        }
+        return brand;
     }
 }

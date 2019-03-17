@@ -302,325 +302,29 @@
             </div>
             <div class="goods-list">
                 <ul class="yui3-g">
-                    <li class="yui3-u-1-5">
+                    <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.id">
                         <div class="list-wrap">
                             <div class="p-img">
-                                <a href="item.html" target="_blank"><img src="img/_/mobile01.png" height="200"/></a>
+                                <a href="item.html" target="_blank"><img :src="goods.selected.image" height="200"/></a>
                                 <ul class="skus">
-                                    <li class="selected"><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
+                                    <li :class="{selected : sku.id === goods.selected.id}" @mouseenter="goods.selected=sku"
+                                        v-for="sku in goods.skus" :key="sku.id">
+                                        <img :src="sku.image">
+                                    </li>
                                 </ul>
                             </div>
                             <div class="clearfix"></div>
                             <div class="price">
                                 <strong>
                                     <em>¥</em>
-                                    <i>6088.00</i>
+                                    <i v-text="ly.formatPrice(goods.selected.price)"></i>
                                 </strong>
                             </div>
                             <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
+                                <em v-text="goods.selected.title.substring(0, 20) + '...'"></em>
                             </div>
                             <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <a href="item.html" target="_blank"><img src="img/_/mobile01.png" height="200"/></a>
-                                <ul class="skus">
-                                    <li class="selected"><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                </ul>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <a href="item.html" target="_blank"><img src="img/_/mobile01.png" height="200"/></a>
-                                <ul class="skus">
-                                    <li class="selected"><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                </ul>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <a href="item.html" target="_blank"><img src="img/_/mobile01.png" height="200"/></a>
-                                <ul class="skus">
-                                    <li class="selected"><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                </ul>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <a href="item.html" target="_blank"><img src="img/_/mobile01.png" height="200"/></a>
-                                <ul class="skus">
-                                    <li class="selected"><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                </ul>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <a href="item.html" target="_blank"><img src="img/_/mobile01.png" height="200"/></a>
-                                <ul class="skus">
-                                    <li class="selected"><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                </ul>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <a href="item.html" target="_blank"><img src="img/_/mobile01.png" height="200"/></a>
-                                <ul class="skus">
-                                    <li class="selected"><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                </ul>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <a href="item.html" target="_blank"><img src="img/_/mobile01.png" height="200"/></a>
-                                <ul class="skus">
-                                    <li class="selected"><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                </ul>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <a href="item.html" target="_blank"><img src="img/_/mobile01.png" height="200"/></a>
-                                <ul class="skus">
-                                    <li class="selected"><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                </ul>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
-                            </div>
-                            <div class="commit">
-                                <i class="command">已有2000人评价</i>
-                            </div>
-                            <div class="operate">
-                                <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">对比</a>
-                                <a href="javascript:void(0);" class="sui-btn btn-bordered">关注</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="yui3-u-1-5">
-                        <div class="list-wrap">
-                            <div class="p-img">
-                                <a href="item.html" target="_blank"><img src="img/_/mobile01.png" height="200"/></a>
-                                <ul class="skus">
-                                    <li class="selected"><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                    <li class=""><img src="img/_/mobile01.png"></li>
-                                </ul>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="price">
-                                <strong>
-                                    <em>¥</em>
-                                    <i>6088.00</i>
-                                </strong>
-                            </div>
-                            <div class="attr">
-                                <em>Apple苹果iPhone 6s (A1699)</em>
-                            </div>
-                            <div class="cu">
-                                <em><span>促</span>满一件可参加超值换购</em>
+                                <em><span>促</span>{{goods.subTitle.substring(0, 16) + '...'}}</em>
                             </div>
                             <div class="commit">
                                 <i class="command">已有2000人评价</i>
@@ -760,8 +464,45 @@
     var vm = new Vue({
         el: "#searchApp",
         data: {
+            ly,
+            // 搜索参数
+            search: {},
+            // 商品集合
+            goodsList: [],
+            // 总记录数
+            total: 0,
+            // 总页数
+            totalPage: 0
         },
+        created() {
+            // 判断是否有请求参数
+            if(!location.search){
+                return;
+            }
+            // 将请求参数转为对象
+            const search = ly.parse(location.search.substring(1));
+            // 记录在data的search对象中
+            this.search = search;
 
+            // 发起请求，根据条件搜索
+            this.loadData();
+        },
+        methods: {
+            loadData() {
+                ly.http.post("/search/page", this.search).then(resp=>{
+                    // 处理goodsList
+                    resp.data.items.forEach(goods => {
+                        // 序列化skus
+                        goods.skus = JSON.parse(goods.skus);
+                        // 添加默认选中的sku
+                        goods.selected = goods.skus[0];
+                    });
+                    this.goodsList =resp.data.items;
+                    this.total = resp.data.total;
+                    this.totalPage = resp.data.totalPage;
+                })
+            }
+        },
         components:{
             lyTop: () => import("./js/pages/top.js")
         }

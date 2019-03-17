@@ -20,6 +20,7 @@ public class CategoryController {
 
     /**
      * 按父ID查询分类集合
+     *
      * @param pid 父id
      * @return List<Category>
      */
@@ -70,12 +71,36 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.deleteCategory(categoryId));
     }
 
+    /**
+     * 根据商品分类id查询分类集合
+     *
+     * @param ids 要查询的分类id集合
+     * @return 多个名称的集合
+     */
     @GetMapping("/list/ids")
     public ResponseEntity<List<Category>> queryCategoryListByIds(@RequestParam("ids") List<Long> ids) {
         if (ids.isEmpty()) {
             throw new LyException(LyExceptionEnum.PARAM_CANNOT_BE_NULL);
         }
         return ResponseEntity.ok(categoryService.queryByIds(ids));
+    }
+
+    /**
+     * 根据商品分类id查询名称
+     *
+     * @param ids 要查询的分类id集合
+     * @return 多个名称的集合
+     */
+    @GetMapping("names")
+    public ResponseEntity<List<String>> queryNameByIds(@RequestParam("ids") List<Long> ids) {
+        if (ids.isEmpty()) {
+            throw new LyException(LyExceptionEnum.PARAM_CANNOT_BE_NULL);
+        }
+        List<String> list = this.categoryService.queryNameByIds(ids);
+        if (list == null || list.size() < 1) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(list);
     }
 
 

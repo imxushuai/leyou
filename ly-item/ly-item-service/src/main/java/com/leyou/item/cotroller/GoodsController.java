@@ -37,8 +37,8 @@ public class GoodsController {
     public ResponseEntity<PageResult<SpuBO>> querySpuByPage(@RequestParam(value = "page", defaultValue = "1") int page,
                                                             @RequestParam(value = "rows", defaultValue = "5") int rows,
                                                             @RequestParam(value = "sortBy", required = false) String sortBy,
-                                                            @RequestParam(value = "desc", defaultValue = "false") Boolean desc,
-                                                            @RequestParam("key") String key,
+                                                            @RequestParam(value = "desc", required = false, defaultValue = "false") Boolean desc,
+                                                            @RequestParam(value = "key", required = false) String key,
                                                             @RequestParam(value = "saleable", required = false) Boolean saleable) {
         return ResponseEntity.ok(goodsService.querySpuByPage(page, rows, sortBy, desc, key, saleable));
     }
