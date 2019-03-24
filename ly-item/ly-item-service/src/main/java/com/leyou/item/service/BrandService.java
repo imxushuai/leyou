@@ -153,4 +153,18 @@ public class BrandService {
         }
         return brand;
     }
+
+    /**
+     * 按ID查询品牌，id可以为多个
+     *
+     * @param ids id集合
+     * @return 品牌集合
+     */
+    public List<Brand> queryByIds(List<Long> ids) {
+        List<Brand> brands = brandMapper.selectByIdList(ids);
+        if (brands == null || brands.isEmpty()) {
+            throw new LyException(LyExceptionEnum.BRAND_NOT_FOUND);
+        }
+        return brands;
+    }
 }

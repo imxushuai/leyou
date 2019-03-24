@@ -108,5 +108,19 @@ public class BrandController {
         return ResponseEntity.ok(brandService.queryById(brandId));
     }
 
+    /**
+     * 查询指定ID的品牌
+     *
+     * @param ids 品牌ID集合
+     * @return Brand
+     */
+    @GetMapping("/ids")
+    public ResponseEntity<List<Brand>> queryBrandByIds(@RequestParam("ids") List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            throw new LyException(LyExceptionEnum.PARAM_CANNOT_BE_NULL);
+        }
+        return ResponseEntity.ok(brandService.queryByIds(ids));
+    }
+
 
 }

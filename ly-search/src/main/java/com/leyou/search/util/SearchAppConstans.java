@@ -18,4 +18,10 @@ public final class SearchAppConstans {
     public static final String FIELD_SKUS = "skus";
     public static final String FIELD_SPECS = "specs";
 
+    /**
+     * elasticsearch agg name
+     */
+    public static final String AGGREGATION_CATEGORY = "agg_category";
+    public static final String AGGREGATION_BRAND = "agg_brand";
+
 }

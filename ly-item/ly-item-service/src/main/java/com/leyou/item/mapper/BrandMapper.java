@@ -1,15 +1,17 @@
 package com.leyou.item.mapper;
 
 import com.leyou.pojo.Brand;
+import com.leyou.pojo.Category;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import tk.mybatis.mapper.additional.idlist.SelectByIdListMapper;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
-public interface BrandMapper extends Mapper<Brand> {
+public interface BrandMapper extends Mapper<Brand>, SelectByIdListMapper<Brand, Long>{
 
     @Insert("INSERT INTO tb_category_brand(brand_id, category_id) VALUES(#{brandId}, #{categoryId})")
     int insertCategoryBrand(@Param("brandId") long brandId, @Param("categoryId") long categoryId);
