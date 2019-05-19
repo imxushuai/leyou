@@ -65,4 +65,13 @@ public interface GoodsApi {
                                                             @RequestParam(value = "desc", defaultValue = "false") Boolean desc,
                                                             @RequestParam("key") String key,
                                                             @RequestParam(value = "saleable", required = false) Boolean saleable);
+
+    /**
+     * 查询spu信息
+     *
+     * @param spuId 商品ID
+     * @return Spu
+     */
+    @GetMapping("goods/{spuId}")
+    SpuBO queryGoodsById(@PathVariable("spuId") Long spuId);
 }

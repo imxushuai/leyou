@@ -1,12 +1,12 @@
 /**
  * Copyright © 2019-Now imxushuai
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +18,7 @@ package com.leyou.search.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.leyou.BO.SpuBO;
 import com.leyou.common.enums.LyExceptionEnum;
 import com.leyou.common.exception.LyException;
 import com.leyou.common.util.JsonUtils;
@@ -30,13 +31,12 @@ import com.leyou.search.pojo.Goods;
 import com.leyou.search.pojo.SearchRequest;
 import com.leyou.search.pojo.SearchResult;
 import com.leyou.search.repository.GoodsRepository;
-import com.leyou.search.util.SearchAppConstans;
+import com.leyou.search.util.SearchAppConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.LongTerms;
@@ -201,22 +201,22 @@ public class SearchService {
 
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
         // 查询方式
-//        QueryBuilder queryBuilder = QueryBuilders.matchQuery(SearchAppConstans.FIELD_ALL, request.getKey());
+//        QueryBuilder queryBuilder = QueryBuilders.matchQuery(SearchAppConstants.FIELD_ALL, request.getKey());
         QueryBuilder queryBuilder = buildBasicQuery(request);
 
         nativeSearchQueryBuilder.withQuery(queryBuilder);
         // 结果过滤
         nativeSearchQueryBuilder.withSourceFilter(
-                new FetchSourceFilter(new String[]{SearchAppConstans.FIELD_ID, SearchAppConstans.FIELD_SUB_TITLE, SearchAppConstans.FIELD_SKUS}, null));
+                new FetchSourceFilter(new String[]{SearchAppConstants.FIELD_ID, SearchAppConstants.FIELD_SUB_TITLE, SearchAppConstants.FIELD_SKUS}, null));
         // 分页查询
         PageRequest pageRequest = PageRequest.of(page, size);
         nativeSearchQueryBuilder.withPageable(PageRequest.of(page, size));
 
         // 聚合分类以及品牌
         nativeSearchQueryBuilder.addAggregation(
-                AggregationBuilders.terms(SearchAppConstans.AGGREGATION_CATEGORY).field(SearchAppConstans.FIELD_CID_3));
+                AggregationBuilders.terms(SearchAppConstants.AGGREGATION_CATEGORY).field(SearchAppConstants.FIELD_CID_3));
         nativeSearchQueryBuilder.addAggregation(
-                AggregationBuilders.terms(SearchAppConstans.AGGREGATION_BRAND).field(SearchAppConstans.FIELD_BRAND_ID));
+                AggregationBuilders.terms(SearchAppConstants.AGGREGATION_BRAND).field(SearchAppConstants.FIELD_BRAND_ID));
 
 
         AggregatedPage<Goods> searchResult = template.queryForPage(nativeSearchQueryBuilder.build(), Goods.class);
@@ -226,8 +226,8 @@ public class SearchService {
 
         // 获取聚合结果
         Aggregations aggregations = searchResult.getAggregations();
-        List<Category> categories = getCategoryAgg(aggregations.get(SearchAppConstans.AGGREGATION_CATEGORY));
-        List<Brand> brands = getBrandAgg(aggregations.get(SearchAppConstans.AGGREGATION_BRAND));
+        List<Category> categories = getCategoryAgg(aggregations.get(SearchAppConstants.AGGREGATION_CATEGORY));
+        List<Brand> brands = getBrandAgg(aggregations.get(SearchAppConstants.AGGREGATION_BRAND));
 
         // 聚合规格参数
         List<Map<String, Object>> specs = null;
@@ -245,13 +245,13 @@ public class SearchService {
     private QueryBuilder buildBasicQuery(SearchRequest request) {
         BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
         // 基础查询条件
-        queryBuilder.must(QueryBuilders.matchQuery(SearchAppConstans.FIELD_ALL, request.getKey()));
+        queryBuilder.must(QueryBuilders.matchQuery(SearchAppConstants.FIELD_ALL, request.getKey()));
         // 过滤查询条件
         Map<String, String> filter = request.getFilter();
         filter.forEach((key, value) -> {
             // 处理key
-            if (!key.equals(SearchAppConstans.FIELD_CID_3) && !key.equals(SearchAppConstans.FIELD_BRAND_ID)) {
-                key = SearchAppConstans.FIELD_SPECS + "." + key + ".keyword";
+            if (!key.equals(SearchAppConstants.FIELD_CID_3) && !key.equals(SearchAppConstants.FIELD_BRAND_ID)) {
+                key = SearchAppConstants.FIELD_SPECS + "." + key + ".keyword";
             }
             queryBuilder.filter(QueryBuilders.termQuery(key, value));
         });
@@ -285,7 +285,7 @@ public class SearchService {
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
         nativeSearchQueryBuilder.withQuery(queryBuilder);
         searchableKeyList.forEach(key -> nativeSearchQueryBuilder.addAggregation(
-                AggregationBuilders.terms(key).field(SearchAppConstans.FIELD_SPECS + "." + key + ".keyword")));
+                AggregationBuilders.terms(key).field(SearchAppConstants.FIELD_SPECS + "." + key + ".keyword")));
 
         // 获取聚合结果
         Aggregations aggregations = template.queryForPage(nativeSearchQueryBuilder.build(), Goods.class).getAggregations();
@@ -341,5 +341,28 @@ public class SearchService {
             log.error("获取品牌聚合结果出错！ error message = [{}]", e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * 新增或修改商品索引信息
+     *
+     * @param id 商品id
+     */
+    public void saveIndex(Long id) {
+        // 查询商品
+        SpuBO spuBO = goodsClient.queryGoodsById(id);
+        Goods goods = buildGoods(spuBO);
+
+        // 更新索引库
+        goodsRepository.save(goods);
+    }
+
+    /**
+     * 刪除商品索引
+     *
+     * @param id 商品id
+     */
+    public void deleteIndex(Long id) {
+        goodsRepository.deleteById(id);
     }
 }

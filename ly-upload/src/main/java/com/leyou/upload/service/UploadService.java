@@ -20,7 +20,7 @@ import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.leyou.common.enums.LyExceptionEnum;
 import com.leyou.common.exception.LyException;
 import com.leyou.upload.config.LyUploadConfigProperty;
-import com.leyou.upload.constans.FileTypeConstans;
+import com.leyou.upload.constants.FileTypeConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +49,7 @@ public class UploadService {
     public String uploadFile(MultipartFile file, String fileType) {
         String url = null;
         switch (fileType) {
-            case FileTypeConstans.IMAGE:
+            case FileTypeConstants.IMAGE:
                 url = uploadImage(file);
                 break;
             default:

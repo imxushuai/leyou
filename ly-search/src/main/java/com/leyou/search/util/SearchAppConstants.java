@@ -18,7 +18,7 @@ package com.leyou.search.util;
 /**
  * 搜索微服务常量类
  */
-public final class SearchAppConstans {
+public final class SearchAppConstants{
     /**
      * elasticsearch goods field
      */

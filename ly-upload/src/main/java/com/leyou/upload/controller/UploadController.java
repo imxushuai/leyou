@@ -18,7 +18,7 @@ package com.leyou.upload.controller;
 import com.leyou.common.enums.LyExceptionEnum;
 import com.leyou.common.exception.LyException;
 import com.leyou.upload.config.LyUploadConfigProperty;
-import com.leyou.upload.constans.FileTypeConstans;
+import com.leyou.upload.constants.FileTypeConstants;
 import com.leyou.upload.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,6 +44,6 @@ public class UploadController {
             throw new LyException(LyExceptionEnum.FILE_TYPE_ERROR);
         }
 
-        return uploadService.uploadFile(file, FileTypeConstans.IMAGE);
+        return uploadService.uploadFile(file, FileTypeConstants.IMAGE);
     }
 }

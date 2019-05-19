@@ -27,6 +27,23 @@ spring:
     hikari:
       maximum-pool-size: 30
       minimum-idle: 10
+  # RabbitMQ配置
+  rabbitmq:
+    # 主机地址
+    host: 192.168.136.103
+    # 用户名、密码
+    username: leyou
+    password: leyou
+    # 虚拟主机
+    virtual-host: /leyou
+    template:
+      retry:
+        enabled: true
+        initial-interval: 10000ms
+        max-interval: 60000ms
+        multiplier: 2
+      exchange: ly.item.exchange
+    publisher-confirms: true
 eureka:
   client:
     service-url:

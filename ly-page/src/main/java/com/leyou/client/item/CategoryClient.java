@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.leyou.common.util;
+package com.leyou.client.item;
+
+import com.leyou.api.CategoryApi;
+import com.leyou.common.util.LeyouConstants;
+import org.springframework.cloud.openfeign.FeignClient;
 
 /**
- * 乐优商城常量类
+ * 商品微服务 - 分类接口
  */
-public final class LeyouConstans {
+@FeignClient(LeyouConstants.SERVICE_ITEM)
+public interface CategoryClient extends CategoryApi {
 
-    /**
-     * service name list
-     */
-    public static final String SERVICE_ITEM = "item-service";
-    public static final String SERVICE_SEARCH = "search-service";
 }

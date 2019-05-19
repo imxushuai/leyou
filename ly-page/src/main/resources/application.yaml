@@ -1,0 +1,27 @@
+server:
+  port: 8004
+spring:
+  application:
+    name: page-service
+  thymeleaf:
+    cache: false # 关闭thymeleaf缓存
+  rabbitmq:
+    # 主机地址
+    host: 192.168.136.103
+    # 用户名、密码
+    username: leyou
+    password: leyou
+    # 虚拟主机
+    virtual-host: /leyou
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9999/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+
+ly:
+  page:
+    # 商品详情页存放目录
+    destPath: C:/item

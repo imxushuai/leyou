@@ -268,10 +268,10 @@
           })
         })
         // 处理全局规格参数
-        this.goods.spuDetail.specifications = JSON.stringify(specs);
+        this.goods.spuDetail.specifications = JSON.stringify(this.specifications);
 
         // 封装sku信息
-        this.goods['skus'] = this.skus.filter(s => s.enable).map(s => {
+        this.goods['skuList'] = this.skus.filter(s => s.enable).map(s => {
           const {price, stock, enable, indexes, images, ...skuSpecs} = s;
           // 拼接title数据（spu的title加上特有的规格参数）
           let title = this.goods.title;
@@ -284,7 +284,7 @@
             price : this.$format(price),
             ownSpec: JSON.stringify(skuSpecs),
             indexes,
-            stock: {stock}
+            stock: stock
           }
         })
         // 发起请求

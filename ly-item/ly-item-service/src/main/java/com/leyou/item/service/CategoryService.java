@@ -19,7 +19,7 @@ import com.leyou.common.enums.LyExceptionEnum;
 import com.leyou.common.exception.LyException;
 import com.leyou.item.mapper.CategoryMapper;
 import com.leyou.pojo.Category;
-import com.leyou.pojo.CategoryConstans;
+import com.leyou.pojo.CategoryConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -57,7 +57,7 @@ public class CategoryService {
      */
     public Category addCategory(Category category) {
         // 判断其父节点是否为父节点
-        if (category.getParentId() != CategoryConstans.FIRST_CATEGORY_PARENT_ID) {
+        if (category.getParentId() != CategoryConstants.FIRST_CATEGORY_PARENT_ID) {
             Category pCategory = categoryMapper.selectByPrimaryKey(category.getParentId());
             if (pCategory != null) {
                 // 判断是否已经是父菜单

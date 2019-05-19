@@ -74,7 +74,7 @@ public class GoodsController {
     }
 
     /**
-     * 新增商品
+     * 编辑商品
      *
      * @param goods 商品
      * @return Spu
@@ -130,9 +130,6 @@ public class GoodsController {
     }
 
     /**
-     * 删除商品
-     */
-    /**
      * 删除指定spuId的商品
      *
      * @param spuId 商品ID
@@ -141,5 +138,16 @@ public class GoodsController {
     @DeleteMapping("/{spuId}")
     public ResponseEntity<Spu> deleteGoods(@PathVariable("spuId") Long spuId) {
         return ResponseEntity.ok(goodsService.deleteGoods(spuId));
+    }
+
+    /**
+     * 查询spu信息
+     *
+     * @param spuId 商品ID
+     * @return Spu
+     */
+    @GetMapping("/{spuId}")
+    public ResponseEntity<SpuBO> queryGoodsById(@PathVariable("spuId") Long spuId) {
+        return ResponseEntity.ok(goodsService.queryGoodsById(spuId));
     }
 }

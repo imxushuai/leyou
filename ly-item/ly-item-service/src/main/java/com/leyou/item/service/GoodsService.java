@@ -1,12 +1,12 @@
 /**
  * Copyright © 2019-Now imxushuai
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,10 +20,13 @@ import com.github.pagehelper.PageInfo;
 import com.leyou.BO.SpuBO;
 import com.leyou.common.enums.LyExceptionEnum;
 import com.leyou.common.exception.LyException;
+import com.leyou.common.util.LeyouConstants;
 import com.leyou.common.vo.PageResult;
 import com.leyou.item.mapper.*;
 import com.leyou.pojo.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +37,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class GoodsService {
 
     @Autowired
@@ -53,6 +57,9 @@ public class GoodsService {
 
     @Autowired
     private StockMapper stockMapper;
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
 
     /**
      * 分页查询商品列表
@@ -133,6 +140,10 @@ public class GoodsService {
 
             // 保存SKU列表
             saveSkuList(goods);
+
+            // 发送同步数据消息
+            sendMessage(goods.getId(), LeyouConstants.QUEUE_INSERT_ITEM);
+
         } catch (Exception e) {
             throw new LyException(LyExceptionEnum.SAVE_FAILURE);
         }
@@ -169,7 +180,7 @@ public class GoodsService {
             // 保存SPU
             goods.setSaleable(true); // 上架
             goods.setLastUpdateTime(new Date()); // 最后更新时间
-            goodsMapper.insert(goods);
+            goodsMapper.updateByPrimaryKey(goods);
 
             // 保存SPU描述
             spuDetailMapper.updateByPrimaryKeySelective(goods.getSpuDetail());
@@ -183,6 +194,10 @@ public class GoodsService {
             stockMapper.deleteByIdList(ids);
             // 保存更新后的数据
             saveSkuList(goods);
+
+            // 发送同步数据消息
+            sendMessage(goods.getId(), LeyouConstants.QUEUE_UPDATE_ITEM);
+
         } catch (Exception e) {
             throw new LyException(LyExceptionEnum.SAVE_FAILURE);
         }
@@ -300,6 +315,25 @@ public class GoodsService {
         // 删除库存信息
         stockMapper.deleteByIdList(ids);
 
+        // 发送同步数据消息
+        sendMessage(spu.getId(), LeyouConstants.QUEUE_DELETE_ITEM);
+
         return spu;
     }
+
+    /**
+     * 发送同步数据消息
+     *
+     * @param id         商品ID
+     * @param routingKey rabbitmq routingKey
+     */
+    private void sendMessage(Long id, String routingKey) {
+        // 发送消息
+        try {
+            amqpTemplate.convertAndSend(routingKey, id);
+        } catch (Exception e) {
+            log.error("[{}]商品消息发送异常，商品id：{}", routingKey, id, e);
+        }
+    }
+
 }

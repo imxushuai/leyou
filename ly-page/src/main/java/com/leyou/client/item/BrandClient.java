@@ -13,9 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.leyou.upload.constans;
+package com.leyou.client.item;
 
-public final class FileTypeConstans {
+import com.leyou.api.BrandApi;
+import com.leyou.common.util.LeyouConstants;
+import org.springframework.cloud.openfeign.FeignClient;
 
-    public static final String IMAGE = "image";
+/**
+ * 商品微服务 - 品牌接口
+ */
+@FeignClient(LeyouConstants.SERVICE_ITEM)
+public interface BrandClient extends BrandApi {
 }

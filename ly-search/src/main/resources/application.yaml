@@ -15,7 +15,7 @@
 #
 
 server:
-  port: 8002
+  port: 8003
 spring:
   application:
     name: search-service
@@ -24,6 +24,14 @@ spring:
       cluster-nodes: 192.168.136.101:9300
   jackson:
     default-property-inclusion: non_null
+  rabbitmq:
+    # 主机地址
+    host: 192.168.136.103
+    # 用户名、密码
+    username: leyou
+    password: leyou
+    # 虚拟主机
+    virtual-host: /leyou
 eureka:
   client:
     service-url:

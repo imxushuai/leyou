@@ -112,7 +112,7 @@
           {text: 'id', align: 'center', value: 'id'},
           {text: '标题', align: 'center', sortable: false, value: 'name'},
           {text: '商品分类', align: 'center', sortable: false, value: 'image'},
-          {text: '品牌', align: 'center', value: 'letter', sortable: true,},
+          {text: '品牌', align: 'center', value: 'letter', sortable: false},
           {text: '操作', align: 'center', value: 'id', sortable: false}
         ],
         show: false,// 是否弹出窗口
