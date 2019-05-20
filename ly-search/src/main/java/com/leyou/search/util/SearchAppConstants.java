@@ -39,4 +39,10 @@ public final class SearchAppConstants{
     public static final String AGGREGATION_CATEGORY = "agg_category";
     public static final String AGGREGATION_BRAND = "agg_brand";
 
+    /**
+     * reabbitmq queue name
+     */
+    public static final String QUEUE_SAVE_SEARCH = "ly.search.save";
+    public static final String QUEUE_DELETE_SEARCH = "ly.search.delete";
+
 }

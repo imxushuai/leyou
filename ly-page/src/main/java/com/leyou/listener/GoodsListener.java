@@ -2,6 +2,7 @@ package com.leyou.listener;
 
 import com.leyou.common.util.LeyouConstants;
 import com.leyou.page.service.PageService;
+import com.leyou.page.util.PageServiceConstants;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
@@ -24,9 +25,9 @@ public class GoodsListener {
      * @param id 商品id
      */
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = LeyouConstants.QUEUE_SAVE_PAGE, durable = "true"),
+            value = @Queue(name = PageServiceConstants.QUEUE_SAVE_PAGE, durable = "true"),
             exchange = @Exchange(name = LeyouConstants.EXCHANGE_DEFAULT_ITEM),
-            key = {LeyouConstants.QUEUE_INSERT_ITEM, LeyouConstants.QUEUE_UPDATE_ITEM}
+            key = {LeyouConstants.ROUTING_KEY_INSERT_ITEM, LeyouConstants.ROUTING_KEY_UPDATE_ITEM}
     ))
     public void savePage(Long id) {
         if (id != null)
@@ -39,9 +40,9 @@ public class GoodsListener {
      * @param id 商品id
      */
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(name = LeyouConstants.QUEUE_DELETE_PAGE, durable = "true"),
+            value = @Queue(name = PageServiceConstants.QUEUE_DELETE_PAGE, durable = "true"),
             exchange = @Exchange(name = LeyouConstants.EXCHANGE_DEFAULT_ITEM),
-            key = LeyouConstants.QUEUE_DELETE_ITEM
+            key = LeyouConstants.ROUTING_KEY_DELETE_ITEM
     ))
     public void deleteIndex(Long id) {
         if (id != null)

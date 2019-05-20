@@ -25,22 +25,20 @@ public final class LeyouConstants {
      */
     public static final String SERVICE_ITEM = "item-service";
     public static final String SERVICE_SEARCH = "search-service";
-    public static final String PAGE_SEARCH = "page-service";
+    public static final String SERVICE_PAGE = "page-service";
+    public static final String SERVICE_SMS = "sms-service";
+    public static final String SERVICE_USER = "user-service";
 
     /**
-     * reabbitmq queue, exchange NAME and routingKey
+     * reabbitmq queue name, exchange name and routingKey
      */
-    public static final String QUEUE_INSERT_ITEM = "ly.item.insert";
-    public static final String QUEUE_UPDATE_ITEM = "ly.item.update";
-    public static final String QUEUE_DELETE_ITEM = "ly.item.delete";
     public static final String EXCHANGE_DEFAULT_ITEM = "ly.item.exchange";
+    public static final String EXCHANGE_SMS = "ly.sms.exchange";
 
-    public static final String QUEUE_SAVE_SEARCH = "ly.search.save";
-    public static final String QUEUE_DELETE_SEARCH = "ly.search.delete";
-
-    public static final String QUEUE_SAVE_PAGE = "ly.page.save";
-    public static final String QUEUE_DELETE_PAGE = "ly.page.delete";
-
+    public static final String ROUTING_KEY_INSERT_ITEM = "ly.item.insert";
+    public static final String ROUTING_KEY_UPDATE_ITEM = "ly.item.update";
+    public static final String ROUTING_KEY_DELETE_ITEM = "ly.item.delete";
+    public static final String ROUTING_KEY_VERIFY_CODE_SMS = "sms.verify.code";
 
 
 }

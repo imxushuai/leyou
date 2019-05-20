@@ -20,4 +20,10 @@ public final class PageServiceConstants {
     public static final String MODEL_SKUS = "skus";
     public static final String MODEL_SPECS = "specs";
 
+    /**
+     * reabbitmq queue name
+     */
+    public static final String QUEUE_SAVE_PAGE = "ly.page.save";
+    public static final String QUEUE_DELETE_PAGE = "ly.page.delete";
+
 }

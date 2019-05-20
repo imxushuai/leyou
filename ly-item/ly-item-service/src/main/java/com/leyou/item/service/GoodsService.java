@@ -142,7 +142,7 @@ public class GoodsService {
             saveSkuList(goods);
 
             // 发送同步数据消息
-            sendMessage(goods.getId(), LeyouConstants.QUEUE_INSERT_ITEM);
+            sendMessage(goods.getId(), LeyouConstants.ROUTING_KEY_INSERT_ITEM);
 
         } catch (Exception e) {
             throw new LyException(LyExceptionEnum.SAVE_FAILURE);
@@ -196,7 +196,7 @@ public class GoodsService {
             saveSkuList(goods);
 
             // 发送同步数据消息
-            sendMessage(goods.getId(), LeyouConstants.QUEUE_UPDATE_ITEM);
+            sendMessage(goods.getId(), LeyouConstants.ROUTING_KEY_UPDATE_ITEM);
 
         } catch (Exception e) {
             throw new LyException(LyExceptionEnum.SAVE_FAILURE);
@@ -316,7 +316,7 @@ public class GoodsService {
         stockMapper.deleteByIdList(ids);
 
         // 发送同步数据消息
-        sendMessage(spu.getId(), LeyouConstants.QUEUE_DELETE_ITEM);
+        sendMessage(spu.getId(), LeyouConstants.ROUTING_KEY_DELETE_ITEM);
 
         return spu;
     }
