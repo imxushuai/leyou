@@ -27,7 +27,7 @@ public class SmsUtil {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    private static final String REDIS_FREFIX_SMS = "sms:phone:";
+    private static final String REDIS_PREFIX_SMS = "sms:verify:phone:";
 
     /**
      * 发送短信
@@ -39,7 +39,7 @@ public class SmsUtil {
      */
     public CommonResponse sendSms(String phoneNumbers, String signName,
                                   String templateCode, String templateParam) {
-        String key = REDIS_FREFIX_SMS + phoneNumbers;
+        String key = REDIS_PREFIX_SMS + phoneNumbers;
         // 限流，同一手机号每次短信发送至少间隔1分钟
         if (redisTemplate.opsForValue().get(key) != null) {
             log.warn("[短信微服务] 同一手机号短信发送频率过高，手机号码：[{}]", phoneNumbers);

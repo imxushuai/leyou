@@ -1,0 +1,40 @@
+server:
+  port: 8006
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/leyou
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+  redis:
+    host: 192.168.136.103
+    port: 6379
+  rabbitmq:
+    # 主机地址
+    host: 192.168.136.103
+    # 用户名、密码
+    username: leyou
+    password: leyou
+    # 虚拟主机
+    virtual-host: /leyou
+    template:
+      retry:
+        enabled: true
+        initial-interval: 10000ms
+        max-interval: 60000ms
+        multiplier: 2
+    publisher-confirms: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9999/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
+mybatis:
+  type-aliases-package: com.leyou.user.pojo

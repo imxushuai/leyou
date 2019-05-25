@@ -39,7 +39,15 @@ public enum LyExceptionEnum {
     SAVE_FAILURE(500, "保存失败"),
     DELETE_FAILURE(500, "删除失败"),
     CATEGORY_DELETE_INVALID(500, "该分类下含有子分类，请先删除其子分类"),
-    READ_FILE_FAILURE(500, "读取文件内容失败");
+    READ_FILE_FAILURE(500, "读取文件内容失败"),
+    NOT_SUPPORT_DATA_TYPE(400, "不支持校验该类型的数据"),
+    VERIFY_CODE_NOT_EQUALS(400, "验证码错误"),
+    REGISTER_FAILURE(500, "注册失败，服务器内部错误"),
+    SEND_VERIFY_CODE_FAILURE(500, "验证码发送失败"),
+    USERNAME_EXISTED(400, "注册失败, 用户名已存在"),
+    PHONE_EXISTED(400, "注册失败, 手机号已被注册"),
+    INVALID_USERNAME_OR_PASSWORD(400, "用户名或密码错误"),
+    ;
     private int code;
     private String message;
 }
