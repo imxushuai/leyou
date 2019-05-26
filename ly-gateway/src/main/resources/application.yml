@@ -29,6 +29,7 @@ zuul:
     item-service: /item/**
     search-service: /search/**
     user-service: /user/**
+    auth-service: /auth/**
     upload-service:
       path: /upload/**
       strip-prefix: false

@@ -1,0 +1,9 @@
+server:
+  port: 8007
+spring:
+  application:
+    name: auth-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9999/eureka
