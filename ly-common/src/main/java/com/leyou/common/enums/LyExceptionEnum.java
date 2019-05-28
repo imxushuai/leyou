@@ -47,6 +47,7 @@ public enum LyExceptionEnum {
     USERNAME_EXISTED(400, "注册失败, 用户名已存在"),
     PHONE_EXISTED(400, "注册失败, 手机号已被注册"),
     INVALID_USERNAME_OR_PASSWORD(400, "用户名或密码错误"),
+    UNAUTHORIZED(401, "未授权"),
     ;
     private int code;
     private String message;
