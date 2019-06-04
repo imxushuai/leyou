@@ -44,7 +44,7 @@ public class PageService {
     @Autowired
     private TemplateEngine templateEngine;
 
-    @Value("ly.page.destPath")
+    @Value("${ly.page.destPath}")
     private String pagePath;
 
     /**

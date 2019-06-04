@@ -336,4 +336,18 @@ public class GoodsService {
         }
     }
 
+    /**
+     * 查询sku信息
+     *
+     * @param skuId skuId
+     * @return Sku 商品sku信息
+     */
+    public Sku querySkuById(Long skuId) {
+        Sku sku = skuMapper.selectByPrimaryKey(skuId);
+        if (sku == null || sku.getId() == null) {
+            throw new LyException(LyExceptionEnum.SKU_NOT_FOUND);
+        }
+
+        return sku;
+    }
 }

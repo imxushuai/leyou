@@ -74,4 +74,13 @@ public interface GoodsApi {
      */
     @GetMapping("goods/{spuId}")
     SpuBO queryGoodsById(@PathVariable("spuId") Long spuId);
+
+    /**
+     * 查询sku信息
+     *
+     * @param skuId skuId
+     * @return Sku 商品sku信息
+     */
+    @GetMapping("goods/sku/{skuId}")
+    Sku querySkuById(@PathVariable("skuId") Long skuId);
 }

@@ -68,10 +68,10 @@ public class UserController {
         // 账号以及手机校验，防止非正规调用
         Boolean username_unique = checkData(user.getUsername(), UserConstants.USER_DATA_USERNAME).getBody();
         Boolean phone_unique = checkData(user.getUsername(), UserConstants.USER_DATA_PHONE).getBody();
-        if (username_unique == null || username_unique) {
+        if (username_unique == null || !username_unique) {
             throw new LyException(LyExceptionEnum.USERNAME_EXISTED);
         }
-        if (phone_unique == null || phone_unique) {
+        if (phone_unique == null || !phone_unique) {
             throw new LyException(LyExceptionEnum.PHONE_EXISTED);
         }
         // 注册

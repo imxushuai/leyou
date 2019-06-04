@@ -57,13 +57,21 @@ public class AuthController {
      * @return UserInfo 用户信息
      */
     @GetMapping("verify")
-    public ResponseEntity<UserInfo> login(@CookieValue("LY_TOKEN") String token) {
+    public ResponseEntity<UserInfo> login(@CookieValue("LY_TOKEN") String token,
+                                          HttpServletRequest request,
+                                          HttpServletResponse response) {
         if (StringUtils.isBlank(token)) {
             throw new LyException(LyExceptionEnum.UNAUTHORIZED);
         }
         try {
             // 解析token
             UserInfo userInfo = JwtUtils.getUserInfo(properties.getPublicKey(), token);
+
+            // 刷新token
+            token = JwtUtils.generateToken(userInfo, this.properties.getPrivateKey(), this.properties.getExpire());
+            // 将token写入cookie
+            CookieUtils.setCookie(request, response, cookieName, token);
+
             return ResponseEntity.ok(userInfo);
         } catch (Exception e) {
             throw new LyException(LyExceptionEnum.UNAUTHORIZED);

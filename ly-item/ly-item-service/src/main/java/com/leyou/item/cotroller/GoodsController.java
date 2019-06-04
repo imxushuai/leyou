@@ -150,4 +150,15 @@ public class GoodsController {
     public ResponseEntity<SpuBO> queryGoodsById(@PathVariable("spuId") Long spuId) {
         return ResponseEntity.ok(goodsService.queryGoodsById(spuId));
     }
+
+    /**
+     * 查询sku信息
+     *
+     * @param skuId skuId
+     * @return Sku 商品sku信息
+     */
+    @GetMapping("/sku/{skuId}")
+    public ResponseEntity<Sku> querySkuById(@PathVariable("skuId") Long skuId) {
+        return ResponseEntity.ok(goodsService.querySkuById(skuId));
+    }
 }

@@ -30,6 +30,7 @@ zuul:
     search-service: /search/**
     user-service: /user/**
     auth-service: /auth/**
+    cart-service: /cart/**
     upload-service:
       path: /upload/**
       strip-prefix: false

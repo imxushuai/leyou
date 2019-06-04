@@ -1,0 +1,16 @@
+server:
+  port: 8008
+spring:
+  application:
+    name: cart-service
+  redis:
+    host: 192.168.136.103
+    port: 6379
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9999/eureka
+ly:
+  jwt:
+    pubKeyPath: C:\\key\\rsa.pub # 公钥地址
+    cookieName: LY_TOKEN
