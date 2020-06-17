@@ -13,7 +13,7 @@
 
 ## 系统架构
 
-![](http://images.xushuai.fun/1525703759035.png)
+![](https://imxushuai-01.coding.net/p/pic/d/pic/git/raw/master/1525703759035.png)
 
 ### 后台管理
 
